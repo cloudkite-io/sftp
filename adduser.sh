@@ -21,6 +21,28 @@ function add_user() {
   fi
 }
 
+function del_user() {
+    local user=$1
+    echo -n "Are you sure you want to delete user '${user}' with all files in ${HOME_DIR}/${user}? Enter 'y' for Yes and 'n' for No "
+    read confirmation
+
+    local user_conf_record=$(grep ${user} ${USER_CONF})
+
+    if [ ${confirmation} == "y" ]; then
+        echo "Deleting user ${user}..."
+        if [ "${user_conf_record}" == "" ]; then
+            echo "user not found"
+        else
+            sed -i "/${user}/d" "${USER_CONF}"
+            rm -rf ${HOME_DIR}/${user}
+            echo "Successfully deleted user ${user}"
+        fi
+    else
+        echo "Exiting..."
+        exit 1
+    fi
+}
+
 function add_user_password() {
   local user=$1
 
