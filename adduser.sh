@@ -11,6 +11,11 @@ function add_user() {
   echo -n "Enter 1 for password auth or 2 for ssh keypair: "
   read auth_type
 
+  if [ "$(grep ${user} ${USER_CONF})" != "" ]; then
+    echo "User '${user}' already exists. Exiting..."
+    exit 1
+  fi
+
   if [ "${auth_type}" -eq 1 ]; then
     add_user_password "${user}"
   elif [ "${auth_type}" -eq 2 ]; then
