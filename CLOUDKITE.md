@@ -20,6 +20,13 @@ ssh-keygen -t ed25519 -f /mnt/volume/config/ssh_host_ed25519_key < /dev/null
 ssh-keygen -t rsa -b 4096 -f /mnt/volume/config/ssh_host_rsa_key < /dev/null
 ```
 
+## Copy scripts
+```bash
+mkdir -p /mnt/volume/scripts
+cp set_permissions.sh /mnt/volume/scripts
+```
+
+
 ## Install sftp scripts
 ```bash
 git clone https://github.com/cloudkite-io/sftp.git
