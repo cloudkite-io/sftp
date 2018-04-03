@@ -6,6 +6,7 @@ services:
       - /mnt/volume/config/users.conf:/etc/sftp/users.conf:ro
       - /mnt/volume/config/ssh_host_ed25519_key:/etc/ssh/ssh_host_ed25519_key
       - /mnt/volume/config/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key
+      - /mnt/volume/scripts/create_home_dirs.sh:/etc/sftp.d/create_home_dirs.sh
       - /mnt/volume/home:/home
       - /mnt/volume/scripts/set_permissions.sh:/etc/sftp.d/set_permissions.sh
     ports:
