@@ -23,6 +23,7 @@ ssh-keygen -t rsa -b 4096 -f /mnt/volume/config/ssh_host_rsa_key < /dev/null
 ## Copy scripts
 ```bash
 mkdir -p /mnt/volume/scripts
+cp set_permissions.sh /mnt/volume/scripts
 cp create_home_dirs.sh /mnt/volume/scripts
 ```
 

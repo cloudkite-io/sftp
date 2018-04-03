@@ -1,4 +1,4 @@
-#/bin/bash
+#! /bin/bash
 
 USER_CONF=/mnt/volume/config/users.conf
 HOME_DIR=/mnt/volume/home

@@ -107,7 +107,6 @@ function createUser() {
             else
                 log "Directory already exists: $dirPath"
             fi
-            chmod 311 ${dirPath}
         done
     fi
 }
