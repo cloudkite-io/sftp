@@ -7,14 +7,17 @@ SFTP_GID=$(id -g nobody)
 
 function add_user() {
   local user=$1
+
+  while read user_conf; do
+      IFS=':' read -ra username <<< "${user_conf}"
+      if [ "${username}" == "${user}" ]; then
+          echo "User '${user}' already exists. Exiting..."
+          exit 1
+      fi
+  done < ${USER_CONF}
   
   echo -n "Enter 1 for password auth or 2 for ssh keypair: "
   read auth_type
-
-  if [ "$(grep ${user} ${USER_CONF})" != "" ]; then
-    echo "User '${user}' already exists. Exiting..."
-    exit 1
-  fi
 
   if [ "${auth_type}" -eq 1 ]; then
     add_user_password "${user}"
@@ -30,18 +33,20 @@ function del_user() {
     local user=$1
     echo -n "Are you sure you want to delete user '${user}' with all files in ${HOME_DIR}/${user}? Enter 'y' for Yes and 'n' for No "
     read confirmation
-
-    local user_conf_record=$(grep ${user} ${USER_CONF})
+    message="${user} does not exists"
 
     if [ ${confirmation} == "y" ]; then
-        echo "Deleting user ${user}..."
-        if [ "${user_conf_record}" == "" ]; then
-            echo "user not found"
-        else
-            sed -i "/${user}/d" "${USER_CONF}"
-            rm -rf ${HOME_DIR}/${user}
-            echo "Successfully deleted user ${user}"
-        fi
+        COUNTER=1
+        while read user_conf; do
+            IFS=':' read -ra username <<< "${user_conf}"
+            if [ "${username}" == "${user}" ]; then
+                sed -i "${COUNTER}d" "${USER_CONF}"
+                rm -rf ${HOME_DIR}/${user}
+                message="Successfully deleted user ${user}"
+            fi
+            let COUNTER=COUNTER+1
+        done < ${USER_CONF}
+        echo ${message}
     else
         echo "Exiting..."
         exit 1
