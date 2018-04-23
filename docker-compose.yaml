@@ -9,4 +9,4 @@ services:
       - ./startup-scripts/:/etc/sftp.d
       - /mnt/volume/home:/home
     ports:
-      - "22:22"
+      - "2222:22"
